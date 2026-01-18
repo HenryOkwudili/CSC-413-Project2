@@ -3,37 +3,38 @@
 
 typedef struct{
 	int *items;
-	int size;
-	int capacity;
-} Pylist;
+	int curr_size;
+	int total_size;
+} pythonlist;
 
-Pylist* Pylist_Create(){
-	Pylist *list = (Pylist*)malloc(sizeof(Pylist));
-	list->capacity = 2;
-	list->size=0;
-	list->items = (int*)malloc(list->capacity * sizeof(int));
+// This function simulates my_list = []
+pythonlist* pythonlist_Create(){
+	pythonlist *list = (pythonlist*)malloc(sizeof(pythonlist));
+	list->total_size = 2;
+	list->curr_size=0;
+	list->items = (int*)malloc(list->total_size * sizeof(int));
 }
 
-void Pylist_Append(Pylist *list, int value){
-	if (list->size == list->capacity){
-		printf("The list is full, current size is: %d. Resizing memory....\n", list->size);
+void pythonlist_Append(pythonlist *list, int value){
+	if (list->curr_size == list->total_size){
+		printf("The list is full, current size is: %d. Resizing memory....\n", list->curr_size);
 		
-		list->capacity*=2;
+		list->total_size*=2;
 		
-		list->items = (int*)realloc(list->items, list->capacity * sizeof(int));
+		list->items = (int*)realloc(list->items, list->total_size * sizeof(int));
 		
-		printf("The memory has been expanded and the new capacity is: %d\n", list->capacity);
+		printf("The memory has been expanded and the new capacity is: %d\n", list->total_size);
 	}
 	
-	list->items[list->size] = value;
-	list->size++;
+	list->items[list->curr_size] = value;
+	list->curr_size++;
 }
 
-void Pylist_Print(Pylist *list){
-	printf("Pylist's current state is: [");
-	for (int i = 0; i < list->size; i++){
+void pythonlist_Print(pythonlist *list){
+	printf("Python list's current state is: [");
+	for (int i = 0; i < list->curr_size; i++){
 		printf("%d", list->items[i]);
-		if(i < list->size - 1) printf(", ");
+		if(i < list->curr_size - 1) printf(", ");
 	}
 	printf("]\n");
 }
@@ -41,15 +42,15 @@ void Pylist_Print(Pylist *list){
 int main() {
 	printf("--- Beginning the Simulation of the List Evolution---\n");
 	
-	Pylist *mylist = Pylist_Create();
+	pythonlist *mylist = pythonlist_Create();
 	
 	for (int i = 0; i < 6; i++){
-		printf("Appending the value: %d\n", i * 10);
-		Pylist_Append(mylist, i*10);
+		printf("Appending the value: %d\n", i );
+		pythonlist_Append(mylist, i);
 	}
 	
 	printf("\nFinal Result:\n");
-	Pylist_Print(mylist);
+	pythonlist_Print(mylist);
 	
 	free(mylist->items);
 	free(mylist);
